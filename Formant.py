@@ -8,13 +8,14 @@ from sys import exit
 
 # Getting window size, hoplength, window type
 
+filename = input('Enter file name:')
 winsize =int(input('Enter Window Size(in millisec):'))
 hoplength =int(input('Enter Hop length(in millisec):'))
 wintype =input('Enter window type(hamm or rect):')
 
 # reading the wav file and sampling frequency and plotting it
 
-d, fs = sf.read('should.wav')
+d, fs = sf.read(f'{filename}.wav')
 print('sampling rate=', fs)
 ln = len(d)
 n = np.linspace(0, ln-1, ln)
