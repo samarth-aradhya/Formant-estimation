@@ -1,14 +1,14 @@
 import soundfile as sf
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.signal import find_peaks
 import scipy
 import librosa
-from scipy.signal import find_peaks
 from sys import exit
 
-# Getting window size, hoplength, window type
+# Getting sound file name, window size, hoplength, window type
 
-filename = input('Enter file name:')
+filename= input('enter file name:')
 winsize =int(input('Enter Window Size(in millisec):'))
 hoplength =int(input('Enter Hop length(in millisec):'))
 wintype =input('Enter window type(hamm or rect):')
@@ -57,13 +57,12 @@ for i in windowdata:
     freq = freq[0:len(freq)//2]
     X.append(b)
     F.append(freq)
-    a = librosa.lpc(i,int((fs/1000)+4))
+    a = librosa.lpc(i,int((fs/1000)+2))
     _ ,h = scipy.signal.freqz([1], a,worN= len(freq))
     y = np.log10(np.abs(h))
     peaks, _ = find_peaks(y)
     P.append(peaks)
-    j = peaks[1]
-    x= y[j]-b[j]
+    x= np.mean(y[peaks])        
     y=y-x
     L.append(y)
     
@@ -77,7 +76,7 @@ for k in range(len(F)):
 # Plotting all the log magnitude plot with peak detection for any given frame
 i=1;
 while(True):
-    fram=input(f'Enter frame number from 1 to {len(X)}:')
+    fram=input(f'Enter frame number from 1 to {len(X)} or to stop just press enter:')
     if fram=='':
         exit()
     else:
