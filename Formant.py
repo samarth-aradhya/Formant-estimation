@@ -71,7 +71,13 @@ for k in range(len(F)):
     p=P[k]
     f=F[k]
     Formants.append(f[p])
-    
+     
+with open(f'{filename}.csv', 'w', newline='') as csvfile:
+    fieldnames = ['frame', 'peak frequencies']
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+    writer.writeheader()
+    for i in range(len(Formants)):
+        writer.writerow({'frame':f'Frame {i+1}  ' , 'peak frequencies':f'   {Formants[i]}'})   
     
 # Plotting all the log magnitude plot with peak detection for any given frame
 i=1;
